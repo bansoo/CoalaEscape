@@ -35,7 +35,13 @@ room2.locateObject(room2.cavinet, 1170, 500)
 room2.locateObject(room2.sap, 1160, 500)
 room2.keypad = room2.createObject("keypad", "숫자키-우.png") 
 room2.keypad.setWidth(50) 
-room2.locateObject(room2.keypad, 1200, 510) 
+room2.locateObject(room2.keypad, 1200, 510)
+room2.ghost = room2.createObject("gost", "귀신1.png")
+room2.ghost.setWidth(230) 
+room2.locateObject(room2.ghost, 700, 350)
+room2.switch = room2.createObject("switch", "스위치.png")
+room2.switch.setWidth(100) 
+room2.locateObject(room2.switch, 80, 350) 
 
 /*동작(방1)*/
 room.book.onClick = function() {
@@ -47,14 +53,17 @@ room.door.onClick = function() {
 		room.door.open() 
 	} else if (room.door.isOpened()){ 
 		game.move(room2) 
+		printMessage("으스스하다")
+		
 	} else if (room.door.isLocked()){ 
 		printMessage("문이 잠겨있다") 
+
 	}
 }
 
 room.keypad.onClick = function() {
 	printMessage("중앙대학교 개교기념일은?")
-	showKeypad("number", "1011" , function(){ 
+	showKeypad("number", "1111" , function(){ 
 		room.door.unlock() 
 		printMessage("잠금장치가 열리는 소리가 들렸다.")
 	 })
@@ -79,34 +88,49 @@ room.byungi.onDrag = function(direction){
 }
 
 room.hole.onClick = function() {
-	if(game.getHandItem() == room.sap) {
+	if(game.getHandItem() != room.sap){
+		printMessage("삽이 필요할것 같다?")
+	}
+	if(game.getHandItem() == room.sap && sapbroken == false) {
+		
 		printMessage("조금더 파보자..")
 		count++
-		
-	} 
-	else {
-		printMessage("수상한 흔적이다")
 	}
-	if(count == 3 ){
-		game.clear()	}
-	else{}
+	if(count ==3){
+		printMessage("삽이 부러졌다!")
+		sapbroken = true
+	}
+	if(count ==5 && sapbroken == false) {
+	game.clear()
+	}
+		
+	
+
 }
 
 /*동작(방2)*/
 room2.text1.onClick = function(){
-	game.move(room) 
+	game.move(room)
+	
 }
-
-room2.cavinet.lock() 
-room2.sap.hide() 
-room2.cavinet.onClick = function() { 
-	if(room2.cavinet.isClosed()){ 
-		room2.cavinet.open() 
-	} 
-	else if (room2.cavinet.isLocked()){ 
-		printMessage("캐비닛이 잠겨있다") 
+room2.switch.onClick = function() {
+	if(roomLight) {
+		room2.setRoomLight(0.5)
+		roomLight = false
+		room2.ghost.show()
+		if(sapbroken){
+			printMessage("귀신이 삽을 고쳐줬다!")
+			sapbroken = false
+		}
+		else {printMessage("무섭다")}
+	} else {
+		room2.setRoomLight(1)
+		roomLight = true
+		room2.ghost.hide()
 	}
 }
+
+
 
 room2.cavinet.onOpen = function() {
 	room2.cavinet.setSprite("캐비닛-오른쪽-열림.png")
@@ -122,12 +146,18 @@ room2.keypad.onClick = function() {
 	 })
 }
 
+
+
+
 //------------아이템을 이전 방에서 쓰기 위해-----------//
 room2.sap.onClick = function(){
 	room2.sap.hide()
 	room.sap.pick()
 }
 //------------default option------------------------//
+var sapbroken = false
+roomLight = true
+room2.ghost.hide()
 room.sap.hide()
 room.door.lock()
 room.hole.hide()
