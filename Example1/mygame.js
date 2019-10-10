@@ -1,14 +1,34 @@
 ﻿/*방생성*/
 room = game.createRoom("room", "배경-5(수정).png") 
 room2 = game.createRoom("room2","룸2(수정).png")
+room3 = game.createRoom("room3","동굴배경(수정).png")
+room4 = game.createRoom("room4","배경(해변).png")
 
 /*객체생성(방1 : door, shelf, book, keypad, hole, byungi)*/
 room.door = room.createObject("door", "문-오른쪽-닫힘(수정).png")
 room.door.setWidth(136) 
 room.locateObject(room.door, 1049, 255) 
+
 room.shelf = room.createObject("shelf", "선반-좌.png")
 room.shelf.setWidth(460)
 room.locateObject(room.shelf, 250, 150)
+
+room.shelf2 = room.createObject("shelf2", "나무판자(수정).png")
+room.shelf2.setWidth(460)
+room.locateObject(room.shelf2, 750, 500)
+
+room.shelf3 = room.createObject("shelf3", "선반-좌.png")
+room.shelf3.setWidth(460)
+room.locateObject(room.shelf3, 250, 250)
+/*
+room.shelf4 = room.createObject("shelf4", "나무판자(수정).png")
+room.shelf4.setWidth(460)
+room.locateObject(room.shelf4, 250, 250)
+
+room.shelf5 = room.createObject("shelf5", "나무판자(수정).png")
+room.shelf5.setWidth(460)
+room.locateObject(room.shelf5, 250, 250)*/
+
 room.book = room.createObject("book", "책3-1.png")
 room.book.setWidth(80)
 room.locateObject(room.book, 100, 140)
@@ -22,6 +42,17 @@ room.byungi = room.createObject("byungi", "변기(수정).png")
 room.byungi.setWidth(170) 
 room.locateObject(room.byungi, 200, 450) 
 room.sap = room.createObject("sap", "삽(수정).png")
+
+room.bomb = room.createObject("bomb","다이너마이트(수정).png")
+room.bomb.setWidth(100)
+room.locateObject(room.bomb, 400, 500)
+room.gifok = room.createObject("gifok","기폭장치(수정).png")
+room.gifok.setWidth(100)
+room.locateObject(room.gifok, 1170, 500)
+
+room.chanjang = room.createObject("chanjang","판자재료(수정).png")
+room.chanjang.setWidth(250)
+room.locateObject(room.chanjang, 850, 300)
 
 /*객체생성(방2 : ) */
 room2.text1 = room2.createObject("text1", "이전 방으로 돌아가기(수정).png")
@@ -43,9 +74,54 @@ room2.switch = room2.createObject("switch", "스위치.png")
 room2.switch.setWidth(100) 
 room2.locateObject(room2.switch, 80, 350) 
 
+/*객체생성(방3 :) */
+room3.text1 = room3.createObject("text1", "이전 방으로 돌아가기(수정).png")
+room3.text1.setWidth(180) 
+room3.locateObject(room3.text1, 100, 700) 
+room3.bomb = room3.createObject("bomb","다이너마이트(수정).png")
+room3.bomb.setWidth(140)
+room3.locateObject(room3.bomb, 300, 300)
+room3.gifok = room3.createObject("gifok","기폭장치(수정).png")
+room3.gifok.setWidth(140)
+room3.locateObject(room3.gifok, 350, 350)
+room3.rock = room3.createObject("rock","바위(수정).png")
+room3.rock.setWidth(170)
+room3.locateObject(room3.rock, 700, 300)
+room3.bomb2 = room3.createObject("bomb2","다이너마이트(수정).png")
+room3.bomb2.setWidth(80)
+room3.locateObject(room3.bomb2, 700, 300)
+room3.light = room3.createObject("light","나가는곳(수정2).png")
+room3.light.setWidth(130)
+room3.locateObject(room3.light, 700, 300)
+room3.gifok2 = room3.createObject("gifok2","기폭장치(수정).png")
+room3.gifok2.setWidth(100)
+room3.locateObject(room3.gifok2, 200, 580)
+
+/*객체생성(방4 : ) */
+room4.ship = room4.createObject("ship", "뗏목(수정).png")
+room4.ship.setWidth(136) 
+room4.locateObject(room4.ship, 1049, 255) 
+
+
+
+
+
+room.doublenamu = room.createObject("doublenamu", "테이블-좌.png")
+room.doublenamu.setWidth(136)
+room.locateObject(room.doublenamu, 1049, 255)
+
+room.doublenamu2 = room.createObject("doublenamu2", "테이블-좌.png")
+room.doublenamu2.setWidth(136)
+room.locateObject(room.doublenamu2, 1049, 255)
+
+
+
+
+
 /*동작(방1)*/
 room.book.onClick = function() {
-	showImageViewer("종이.png", "책.txt");
+	//showImageViewer("종이.png", "책.txt")
+	game.move(room3)
 }
 
 room.door.onClick = function() { 
@@ -101,12 +177,34 @@ room.hole.onClick = function() {
 		sapbroken = true
 	}
 	if(count ==5 && sapbroken == false) {
-	game.clear()
+		game.move(room3)
+		printMessage("땅굴이 나왔다..")
 	}
 		
-	
-
 }
+room.chanjang.onClick = function(){
+	room.chanjang.pick()
+}
+
+
+
+game.makeCombination(room.shelf2, room.shelf3, room.chanjang)
+//game.makeCombination(room.shelf2, room.shelf3, room.chanjang)
+
+
+game.makeCombination(room.shelf2, room.shelf2, room.doublenamu)
+
+game.makeCombination(room.shelf3, room.shelf3, room.doublenamu2)
+
+game.makeCombination(room.doublenamu, room.doublenamu2, room4.ship)
+
+/*
+game.makeCombination(room.shelf2, room.shelf4, room.doublenamu)
+game.makeCombination(room.shelf2, room.shelf5, room.doublenamu)
+game.makeCombination(room.shelf3, room.shelf4, room.doublenamu2)
+game.makeCombination(room.shelf3, room.shelf5, room.doublenamu2)
+game.makeCombination(room.doublenamu, room.doublenamu2, room4.ship)*/
+
 
 /*동작(방2)*/
 room2.text1.onClick = function(){
@@ -146,21 +244,102 @@ room2.keypad.onClick = function() {
 	 })
 }
 
+room2.cavinet.onClick = function() { 
+	if(room2.cavinet.isClosed()){ 
+		room2.cavinet.open() 
+	} 	
+	 else if (room2.cavinet.isLocked()){ 
+		printMessage("캐비닛이 잠겨있다") 
+
+	}
+}
+/*동작(방3)*/
+room3.text1.onClick = function(){
+	game.move(room)
+	
+}
+
+room3.rock.onClick = function(){
+	if(game.getHandItem() != room3.bomb){
+		printMessage("꿈쩍도하지않는다.")
+	}
+	else if(game.getHandItem() == room3.bomb){
+		printMessage("폭탄을 설치했다.")
+		room3.bomb = null
+		room3.bomb2.show()
+	}
+
+	
+}
+room3.bomb2.onClick = function(){
+	if(game.getHandItem() != room3.gifok){
+		printMessage("어떻게 터트리지?")
+	}
+	else if(game.getHandItem() == room3.gifok){
+		printMessage("멀리떨어져서 터트리자")
+
+		room3.gifok = null
+		room3.gifok2.show()
+	}
+
+	
+}
+
+room3.gifok2.onClick = function(){
+	room3.light.show()
+	room3.rock.hide()
+	printMessage("바위가 부서졌다!")
+}
+room3.light.onClick = function(){
+	game.move(room4)
+}
 
 
-
-//------------아이템을 이전 방에서 쓰기 위해-----------//
+//------------아이템을 다른 방에서 쓰기 위해-----------//
 room2.sap.onClick = function(){
 	room2.sap.hide()
 	room.sap.pick()
 }
+
+room.gifok.onClick = function() {
+	room.gifok.hide()
+	room3.gifok.pick()
+}
+
+room.bomb.onClick = function() {
+	room.bomb.hide()
+	room3.bomb.pick()
+}
+room.shelf2.onClick = function() {
+	room.shelf2.pick()
+}
+
+room.shelf3.onClick = function() {
+	room.shelf3.pick()
+}
+
 //------------default option------------------------//
 var sapbroken = false
 roomLight = true
 room2.ghost.hide()
 room.sap.hide()
+room2.sap.hide()
 room.door.lock()
+room2.cavinet.lock()
 room.hole.hide()
+room3.gifok.hide()
+room3.gifok2.hide()
+room3.bomb.hide()
+room3.bomb2.hide()
+room3.light.hide()
+room4.ship.hide()
+//room4.shelf.hide()
+//room4.shelf2.hide()
+//room4.shelf3.hide()
+room.doublenamu.hide()
+room.doublenamu2.hide()
+//room.shelf4.hide()
+//room.shelf5.hide()
 count = 0
 game.start(room) 
 printMessage("방탈출에 오신 것을 환영합니다!") 
