@@ -163,7 +163,7 @@ room.door.onClick = function() {
 
 room.keypad.onClick = function() {
 	printMessage("중앙대학교 개교기념일은?")
-	showKeypad("number", "1111" , function(){ 
+	showKeypad("alphabet", "ABCDE" , function(){ 
 		room.door.unlock() 
 		printMessage("잠금장치가 열리는 소리가 들렸다.")
 	 })
@@ -203,6 +203,7 @@ room.hole.onClick = function() {
 	if(count ==5 && sapbroken == false) {
 		game.move(room3)
 		printMessage("땅굴이 나왔다..")
+		room.sap = null
 	}
 		
 }
@@ -266,7 +267,7 @@ room2.cavinet.onOpen = function() {
 
 room2.keypad.onClick = function() {
 	printMessage("책에 단서가 있지 않을까?")
-	showKeypad("number", "2748" , function(){ 
+	showKeypad("number", "1111" , function(){ 
 		room2.cavinet.unlock() 
 		printMessage("잠금장치가 열리는 소리가 들렸다.")
 	 })
@@ -314,14 +315,28 @@ room3.bomb2.onClick = function(){
 }
 
 room3.gifok2.onClick = function(){
+	if (room3.gifok2.isLocked()){
+		printMessage("기폭장치에 잠금이 걸려있다!")
+	
+	
+	showKeypad("telephone", "111111" , function(){ 
+		room3.gifok2.unlock() 
+		printMessage("기폭장치의 잠금이 풀렸다.")
+	 })
+	}
+	else if(room3.gifok2.isOpened){
 	playSound("폭탄소리.wav")
 	room3.light.show()
 	room3.rock.hide()
 	printMessage("바위가 부서졌다!")
+	}
 }
 room3.light.onClick = function(){
 	game.move(room4)
+	printMessage("여길 어떻게 빠져나가지..?")
 }
+
+
 
 /*동작(방4)*/
 room4.text1.onClick = function(){
@@ -378,6 +393,7 @@ room3.gifok2.hide()
 room3.bomb.hide()
 room3.bomb2.hide()
 room3.light.hide()
+room3.gifok2.lock()
 room4.ship.hide()
 //room4.shelf.hide()
 //room4.shelf2.hide()
