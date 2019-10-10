@@ -32,6 +32,15 @@ room.locateObject(room.shelf5, 250, 250)*/
 room.book = room.createObject("book", "책3-1.png")
 room.book.setWidth(80)
 room.locateObject(room.book, 100, 140)
+
+room.book2 = room.createObject("book2", "책3-1.png")
+room.book2.setWidth(80)
+room.locateObject(room.book2, 200, 120)
+
+room.book3 = room.createObject("book3", "책3-1.png")
+room.book3.setWidth(80)
+room.locateObject(room.book3, 300, 100)
+
 room.keypad = room.createObject("keypad", "숫자키-우.png") 
 room.keypad.setWidth(50) 
 room.locateObject(room.keypad, 930, 250) 
@@ -98,30 +107,45 @@ room3.gifok2.setWidth(100)
 room3.locateObject(room3.gifok2, 200, 580)
 
 /*객체생성(방4 : ) */
-room4.ship = room4.createObject("ship", "뗏목(수정).png")
-room4.ship.setWidth(136) 
-room4.locateObject(room4.ship, 1049, 255) 
 
 
 
+room4.bada = room4.createObject("bada", "바다.png")
+room4.bada.setWidth(1100) 
+room4.locateObject(room4.bada, 650, 620) 
 
 
-room.doublenamu = room.createObject("doublenamu", "테이블-좌.png")
+
+room.doublenamu = room.createObject("doublenamu", "나무판자두개.png")
 room.doublenamu.setWidth(136)
 room.locateObject(room.doublenamu, 1049, 255)
 
-room.doublenamu2 = room.createObject("doublenamu2", "테이블-좌.png")
+room.doublenamu2 = room.createObject("doublenamu2", "나무판자두개.png")
 room.doublenamu2.setWidth(136)
 room.locateObject(room.doublenamu2, 1049, 255)
 
+room4.text1 = room4.createObject("text1", "이전 방으로 돌아가기(수정).png")
+room4.text1.setWidth(180) 
+room4.locateObject(room4.text1, 100, 700) 
 
-
-
+room4.ship = room4.createObject("ship", "뗏목(수정).png")
+room4.ship.setWidth(136) 
+room4.locateObject(room4.ship, 600, 555) 
 
 /*동작(방1)*/
 room.book.onClick = function() {
-	//showImageViewer("종이.png", "책.txt")
-	game.move(room3)
+	showImageViewer("종이.png", "책.txt")
+
+}
+
+room.book2.onClick = function() {
+	showImageViewer("종이.png", "책2.txt")
+
+}
+
+room.book3.onClick = function() {
+	showImageViewer("종이.png", "책3.txt")
+
 }
 
 room.door.onClick = function() { 
@@ -212,6 +236,7 @@ room2.text1.onClick = function(){
 	
 }
 room2.switch.onClick = function() {
+	
 	if(roomLight) {
 		room2.setRoomLight(0.5)
 		roomLight = false
@@ -220,7 +245,10 @@ room2.switch.onClick = function() {
 			printMessage("귀신이 삽을 고쳐줬다!")
 			sapbroken = false
 		}
-		else {printMessage("무섭다")}
+		else {printMessage("무섭다")
+		playSound("ghost.wav")
+	}
+		
 	} else {
 		room2.setRoomLight(1)
 		roomLight = true
@@ -286,6 +314,7 @@ room3.bomb2.onClick = function(){
 }
 
 room3.gifok2.onClick = function(){
+	playSound("폭탄소리.wav")
 	room3.light.show()
 	room3.rock.hide()
 	printMessage("바위가 부서졌다!")
@@ -294,7 +323,24 @@ room3.light.onClick = function(){
 	game.move(room4)
 }
 
+/*동작(방4)*/
+room4.text1.onClick = function(){
+	game.move(room3)
+	
+}
 
+
+room4.bada.onClick = function() {
+	if(game.getHandItem() != room4.ship){
+		printMessage("여길 어떻게 빠져나가지..?")
+	}
+	if(game.getHandItem() == room4.ship){
+		room4.ship.show()
+	}
+}
+room4.ship.onClick = function() {
+game.clear()
+}
 //------------아이템을 다른 방에서 쓰기 위해-----------//
 room2.sap.onClick = function(){
 	room2.sap.hide()
